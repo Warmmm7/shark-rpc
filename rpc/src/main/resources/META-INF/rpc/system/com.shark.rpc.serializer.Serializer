@@ -1,0 +1,5 @@
+jdk=com.shark.rpc.serializer.JdkSerializer
+hessian=com.shark.rpc.serializer.HessianSerializer
+json=com.shark.rpc.serializer.JsonSerializer
+kryo=com.shark.rpc.serializer.KryoSerializer
+

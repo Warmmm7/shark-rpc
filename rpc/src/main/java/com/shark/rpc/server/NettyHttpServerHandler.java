@@ -1,10 +1,12 @@
 package com.shark.rpc.server;
 
+import com.shark.rpc.RpcApp;
 import com.shark.rpc.model.RpcRequest;
 import com.shark.rpc.model.RpcResponse;
 import com.shark.rpc.registry.LocalRegistry;
 import com.shark.rpc.serializer.JdkSerializer;
 import com.shark.rpc.serializer.Serializer;
+import com.shark.rpc.serializer.SerializerFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,7 +27,7 @@ import java.lang.reflect.Method;
 
 public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
-    private final Serializer serializer = new JdkSerializer();
+    private final Serializer serializer = SerializerFactory.getInstance(RpcApp.getRpcConfig().getSerializer());
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
         //拿到http请求
