@@ -11,7 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 
-public class NettyHttpServer implements HttpServer{
+public class NettyHttpServer implements WebServer {
     @Override
     public void run(int port) {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);

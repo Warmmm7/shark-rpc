@@ -3,7 +3,7 @@ package com.shark.rpc.server;
 /**
  * 基于netty是实现的web
  */
-public interface HttpServer {
+public interface WebServer {
 
     /**
      * 启动web服务
