@@ -1,5 +1,8 @@
-package com.shark.rpc.server;
+package com.shark.rpc.server.tcpServer;
 
+import com.shark.rpc.protocol.codec.NettyMessageDecoder;
+import com.shark.rpc.protocol.codec.NettyMessageEncoder;
+import com.shark.rpc.server.httpServer.HttpServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -8,28 +11,32 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.LengthFieldPrepender;
 
-public class NettyHttpServer implements WebServer {
-    @Override
-    public void run(int port) {
+/**
+ * 应用层自定义协议头 传输使用TCP
+ */
+public class NettyTcpServer {
+    public void doStart(int port) {
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap.group(bossGroup,workerGroup)
                 //服务器套接字上等待连接的最大队列长度
-                .option(ChannelOption.SO_BACKLOG,128)
+                .option(ChannelOption.SO_BACKLOG,1024)
                 //启用TCP层心跳机制，以保持长时间未活动的连接
                 .childOption(ChannelOption.SO_KEEPALIVE,Boolean.TRUE)
-                .channel(NioServerSocketChannel.class)
+                .channel(NioServerSocketChannel.class)//NIO模式
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new HttpServerCodec());
-                        ch.pipeline().addLast(new HttpObjectAggregator(65536));
-                        ch.pipeline().addLast(new NettyHttpServerHandler());
+                        //ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(1024,0,4,0,4));
+                        //ch.pipeline().addLast(new LengthFieldPrepender(4));
+                        ch.pipeline().addLast(new NettyMessageDecoder());
+                        ch.pipeline().addLast(new NettyMessageEncoder());
+
+                        ch.pipeline().addLast(new NettyTcpServerHandler());
                     }
                 });
 
@@ -52,5 +59,9 @@ public class NettyHttpServer implements WebServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static void main(String[] args) {
+        new NettyTcpServer().doStart(8888);
     }
 }

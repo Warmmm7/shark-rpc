@@ -1,4 +1,4 @@
-package com.shark.rpc.server;
+package com.shark.rpc.server.httpServer;
 
 import com.shark.rpc.RpcApp;
 import com.shark.rpc.model.RpcRequest;
@@ -103,7 +103,6 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
         response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
 
         ctx.writeAndFlush(response);
-        ctx.close();
     }
 
     private void sendErrorResponse(ChannelHandlerContext ctx, HttpResponseStatus status) {

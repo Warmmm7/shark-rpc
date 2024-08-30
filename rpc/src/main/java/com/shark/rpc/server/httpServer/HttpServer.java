@@ -1,12 +1,12 @@
-package com.shark.rpc.server;
+package com.shark.rpc.server.httpServer;
 
 /**
  * 基于netty是实现的web
  */
-public interface WebServer {
+public interface HttpServer {
 
     /**
-     * 启动web服务
+     * 启动webServer服务
      * @param port
      */
     void run (int port);

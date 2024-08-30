@@ -1,5 +1,7 @@
 package com.shark.rpc.config;
 
+import com.shark.rpc.fault.retry.RetryStrategyKeys;
+import com.shark.rpc.loadbalancer.LoadBalancerKeys;
 import com.shark.rpc.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -39,5 +41,14 @@ public class RpcConfig {
      */
     private RegistryConfig registryConfig = new RegistryConfig();
 
+    /**
+     * 负载均衡
+     */
+     private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
+
+    /**
+     * 重试策略
+     */
+    private String retryStrategy = RetryStrategyKeys.NO;
 
 }

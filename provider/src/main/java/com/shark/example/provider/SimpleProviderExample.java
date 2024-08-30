@@ -2,7 +2,7 @@ package com.shark.example.provider;
 
 import com.shark.example.common.service.UserService;
 import com.shark.rpc.registry.LocalRegistry;
-import com.shark.rpc.server.NettyHttpServer;
+import com.shark.rpc.server.httpServer.NettyHttpServer;
 
 /**
  * 简易版启动

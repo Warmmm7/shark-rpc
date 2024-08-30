@@ -8,7 +8,8 @@ import com.shark.rpc.model.ServiceMetaInfo;
 import com.shark.rpc.registry.LocalRegistry;
 import com.shark.rpc.registry.Registry;
 import com.shark.rpc.registry.RegistryFactory;
-import com.shark.rpc.server.NettyHttpServer;
+import com.shark.rpc.server.httpServer.NettyHttpServer;
+import com.shark.rpc.server.tcpServer.NettyTcpServer;
 
 /**
  * 简易版启动 提供者
@@ -41,5 +42,9 @@ public class ProviderExample {
         //启动web
         NettyHttpServer httpServer = new NettyHttpServer();
         httpServer.run(RpcApp.getRpcConfig().getServerPort());
+
+        //启动自定义的tcp
+//        NettyTcpServer tcpServer = new NettyTcpServer();
+//        tcpServer.doStart(8080);
     }
 }

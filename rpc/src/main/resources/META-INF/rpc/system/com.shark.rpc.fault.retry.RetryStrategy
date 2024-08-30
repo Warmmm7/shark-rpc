@@ -1,0 +1,2 @@
+no=com.shark.rpc.fault.retry.NoRetryStrategy
+fixedInterval=com.shark.rpc.fault.retry.FixedIntervalRetryStrategy
